@@ -1,0 +1,69 @@
+{
+  "eval_cases": [
+    {
+      "eval_case_id": "hr_policy_leave",
+      "prompt": {
+        "role": "user",
+        "parts": [{"text": "What is our company outpatient sick leave policy in Singapore according to the handbook?"}]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [{"text": "Full-time employees receive 14 days of outpatient sick leave annually under Section 19.1."}]
+        }
+      }
+    },
+    {
+      "eval_case_id": "workweek_check_balances",
+      "prompt": {
+        "role": "user",
+        "parts": [{"text": "Check my vacation and sick leave balances in WorkWeek for employee EMP1001"}]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [{"text": "WorkWeek SaaS Balances: Vacation remaining: 14 days, Sick Leave remaining: 8 days."}]
+        }
+      }
+    },
+    {
+      "eval_case_id": "workweek_submit_leave",
+      "prompt": {
+        "role": "user",
+        "parts": [{"text": "Submit a 3-day vacation leave request in WorkWeek for employee EMP1001 from 2026-08-03 to 2026-08-05"}]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [{"text": "WorkWeek SaaS: Leave request submitted successfully."}]
+        }
+      }
+    },
+    {
+      "eval_case_id": "serviceimmediately_list_incidents",
+      "prompt": {
+        "role": "user",
+        "parts": [{"text": "List all my active IT support tickets in ServiceImmediately for employee EMP1001"}]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [{"text": "ServiceImmediately SaaS: Ticket INC-99412 (Hardware - Laptop screen flickering) is In Progress."}]
+        }
+      }
+    },
+    {
+      "eval_case_id": "serviceimmediately_create_incident",
+      "prompt": {
+        "role": "user",
+        "parts": [{"text": "Submit a High priority IT incident ticket in ServiceImmediately for VPN connection dropping"}]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [{"text": "ServiceImmediately SaaS: Incident INC-99413 created with priority 2 - High."}]
+        }
+      }
+    }
+  ]
+}
