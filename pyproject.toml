@@ -22,9 +22,8 @@ requires-python = ">=3.11,<3.14"
 
 
 [tool.uv]
-environments = ["sys_platform == 'linux'"]
-
 [[tool.uv.index]]
+
 name = "pypi"
 url = "https://pypi.org/simple"
 default = true
