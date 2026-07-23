@@ -4,6 +4,7 @@ project_type: adk
 entrypoint: app
 app_name: app
 project_id: hr-elevate-table1
+deployment_target: agent_runtime
 
 deployment:
   mode: agent_runtime
