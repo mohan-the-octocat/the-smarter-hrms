@@ -29,7 +29,27 @@ KNOWLEDGE_DIR = os.path.join(os.path.dirname(__file__), "..", "knowledge")
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
 
 MOCK_SAAS_BASE_URL = os.getenv("MOCK_SAAS_BASE_URL", "https://mock-saas.aishprabhat.demo.altostrat.com").rstrip("/")
-mcp_token = os.getenv("MCP_TOKEN", os.getenv("WORKWEEK_MCP_TOKEN", "mcp_5XFozjRwWsNwIkOfv6O5mH3Aooztwb1V4pdJ1bo1J3E"))
+
+
+def fetch_mcp_token() -> str:
+    """Fetches MCP_TOKEN from Secret Manager (projects/1075966854706/secrets/MCP_TOKEN/versions/1) with env fallback."""
+    secret_path = os.getenv(
+        "MCP_TOKEN_SECRET_PATH",
+        "projects/1075966854706/secrets/MCP_TOKEN/versions/1"
+    )
+    try:
+        from google.cloud import secretmanager
+        client = secretmanager.SecretManagerServiceClient()
+        response = client.access_secret_version(request={"name": secret_path})
+        token = response.payload.data.decode("UTF-8").strip()
+        if token:
+            return token
+    except Exception as e:
+        pass
+    return os.getenv("MCP_TOKEN", "mcp_5XFozjRwWsNwIkOfv6O5mH3Aooztwb1V4pdJ1bo1J3E")
+
+
+mcp_token = fetch_mcp_token()
 
 # --- 1. Live MCP Toolsets ---
 workweek_mcp_toolset = McpToolset(
@@ -45,6 +65,7 @@ serviceimmediately_mcp_toolset = McpToolset(
         headers={"X-MCP-Token": mcp_token}
     )
 )
+
 
 
 # --- 2. HR Policy Specialist OKF Tools ---

@@ -3,3 +3,11 @@ schema_version: "1.0"
 project_type: adk
 entrypoint: app
 app_name: app
+project_id: hr-elevate-table1
+
+deployment:
+  mode: agent_runtime
+  identity_type: agent_identity
+  secrets:
+    - name: MCP_TOKEN
+      resource: projects/1075966854706/secrets/MCP_TOKEN/versions/1
