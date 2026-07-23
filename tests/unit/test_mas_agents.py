@@ -26,12 +26,13 @@ from app.tools import (
 
 
 def test_agent_structure():
-    """Verify that root agent has all three specialist sub-agents attached."""
+    """Verify that root agent has all three specialist sub-agents attached as tools."""
     assert root_agent.name == "orchestrator_agent"
-    sub_agent_names = [sub.name for sub in root_agent.sub_agents]
-    assert "hr_policy_specialist" in sub_agent_names
-    assert "hrms_specialist" in sub_agent_names
-    assert "itms_specialist" in sub_agent_names
+    tool_names = [tool.name for tool in root_agent.tools]
+    assert "hr_policy_specialist" in tool_names
+    assert "hrms_specialist" in tool_names
+    assert "itms_specialist" in tool_names
+
 
 
 def test_sub_agent_tools_count():

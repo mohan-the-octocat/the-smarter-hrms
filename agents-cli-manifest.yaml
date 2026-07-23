@@ -1,10 +1,15 @@
 # Agents CLI Project Manifest
 schema_version: "1.0"
+name: mas
 project_type: adk
 entrypoint: app
 app_name: app
 project_id: hr-elevate-table1
-deployment_target: agent_runtime
+
+create_params:
+  deployment_target: agent_runtime
+  session_type: in_memory
+  cicd_runner: skip
 
 deployment:
   mode: agent_runtime

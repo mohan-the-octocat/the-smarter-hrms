@@ -97,25 +97,31 @@ itms_agent = Agent(
     tools=[serviceimmediately_mcp_toolset],
 )
 
+from google.adk.tools import AgentTool
+
 # Central Orchestrator Agent (BRD Section 3 & 4.1 Cross-System Orchestrator)
 root_agent = Agent(
     name="orchestrator_agent",
     model=default_model,
     instruction=(
         "You are the central Orchestrator for the enterprise Multi-Agent System (MAS).\n"
-        "Your task is to analyze incoming user requests and delegate to or chain specialist sub-agents:\n\n"
-        "SINGLE-DOMAIN ROUTING:\n"
-        "- For HR policy Q&A, handbook rules, expenses, benefits, or OKF questions, delegate to 'hr_policy_specialist'.\n"
-        "- For HRMS WorkWeek operations (employee profiles, leave balances, leave submission, profile updates), delegate to 'hrms_specialist'.\n"
-        "- For ITMS ServiceImmediately IT support (incident listing, ticket creation, comments, status updates), delegate to 'itms_specialist'.\n\n"
-        "CROSS-SYSTEM ORCHESTRATION (UC-2.1, UC-2.2, UC-2.3):\n"
-        "- For multi-domain requests (e.g., Equipment Procurement, Medical Leave Setup, Office Relocation):\n"
-        "  1. Step 1: Consult 'hr_policy_specialist' to verify eligibility or guidelines.\n"
-        "  2. Step 2: Consult 'hrms_specialist' to verify employee status/balances or update records.\n"
-        "  3. Step 3: Consult 'itms_specialist' to create necessary facility/IT support tickets.\n"
-        "Synthesize and present the step-by-step resolution clearly to the user."
+        "Your role is to orchestrate user requests across the specialist sub-agents:\n\n"
+        "AVAILABLE AGENT TOOLS:\n"
+        "- `hr_policy_specialist`: Query HR policy handbook, remote work guidelines, leave rules, and expenses.\n"
+        "- `hrms_specialist`: Query WorkWeek SaaS for employee profiles, remote status, and leave balances for employee IDs (e.g. 'EMP-22').\n"
+        "- `itms_specialist`: Query and create ServiceImmediately IT tickets, incident status, and hardware/procurement requests for employee IDs (e.g. 'EMP-22').\n\n"
+        "CROSS-SYSTEM ORCHESTRATION INSTRUCTIONS (UC-2.1, UC-2.2, UC-2.3):\n"
+        "For multi-domain requests (e.g., Equipment Procurement, Medical Leave Setup, Office Relocation):\n"
+        "1. Step 1: Call `hr_policy_specialist` to verify policy eligibility or equipment allowance rules.\n"
+        "2. Step 2: Call `hrms_specialist` to verify the employee's role/remote status or leave balances.\n"
+        "3. Step 3: Call `itms_specialist` to submit the IT ticket or hardware request.\n"
+        "Synthesize all results and present a complete response to the user."
     ),
-    sub_agents=[hr_policy_agent, hrms_agent, itms_agent],
+    tools=[
+        AgentTool(hr_policy_agent),
+        AgentTool(hrms_agent),
+        AgentTool(itms_agent),
+    ],
 )
 
 # ADK App Export
@@ -123,3 +129,4 @@ app = App(
     root_agent=root_agent,
     name="app",
 )
+
