@@ -35,7 +35,7 @@ from app.tools import (
 
 # Common model config
 default_model = Gemini(
-    model="gemini-2.5-flash",
+    model="gemini-3.5-flash",
     retry_options=types.HttpRetryOptions(attempts=3),
 )
 
